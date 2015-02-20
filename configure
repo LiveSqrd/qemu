@@ -2954,7 +2954,7 @@ if test "$attr" != "no" ; then
 #else
 #include <sys/xattr.h>
 #endif
-int main(void) { getxattr(NULL, NULL, NULL, 0, 0, 0); setxattr(NULL, NULL, NULL, 0, 0, 0, 0); return 0; }
+int main(void) { getxattr(NULL, NULL, NULL, 0, 0, 0); setxattr(NULL, NULL, NULL, 0, 0, 0); return 0; }
 EOF
   if compile_prog "" "" ; then
     attr=yes
