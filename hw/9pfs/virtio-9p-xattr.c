@@ -75,7 +75,7 @@ ssize_t v9fs_list_xattr(FsContext *ctx, const char *path,
 
     /* Get the actual len */
     buffer = rpath(ctx, path);
-    xattr_len = llistxattr(buffer, value, 0);
+    xattr_len = listxattr(buffer, value, 0, XATTR_NOFOLLOW);
     if (xattr_len <= 0) {
         g_free(buffer);
         return xattr_len;
@@ -83,7 +83,7 @@ ssize_t v9fs_list_xattr(FsContext *ctx, const char *path,
 
     /* Now fetch the xattr and find the actual size */
     orig_value = g_malloc(xattr_len);
-    xattr_len = llistxattr(buffer, orig_value, xattr_len);
+    xattr_len = listxattr(buffer, orig_value, xattr_len, XATTR_NOFOLLOW);
     g_free(buffer);
 
     /* store the orig pointer */
