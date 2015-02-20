@@ -83,7 +83,7 @@ static inline int pt_removexattr(FsContext *ctx,
     int ret;
 
     buffer = rpath(ctx, path);
-    ret = lremovexattr(path, name);
+    ret = removexattr(path, name, XATTR_NOFOLLOW);
     g_free(buffer);
     return ret;
 }
