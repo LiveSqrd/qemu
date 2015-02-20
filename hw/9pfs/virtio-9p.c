@@ -2719,8 +2719,8 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
     f_bavail = stbuf->f_bavail/bsize_factor;
     f_files  = stbuf->f_files;
     f_ffree  = stbuf->f_ffree;
-    fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-               (unsigned long long)stbuf->f_fsid.__val[1] << 32;
+    fsid_val = (unsigned int) stbuf->f_fsid.val[0] |
+               (unsigned long long)stbuf->f_fsid.val[1] << 32;
     f_namelen = stbuf->f_namelen;
 
     return pdu_marshal(pdu, offset, "ddqqqqqqd",
