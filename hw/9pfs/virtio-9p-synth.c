@@ -220,7 +220,7 @@ static void v9fs_synth_direntry(V9fsSynthNode *node,
 {
     strcpy(entry->d_name, node->name);
     entry->d_ino = node->attr->inode;
-    entry->d_off = off + 1;
+    entry->d_seekoff = off + 1;
 }
 
 static int v9fs_synth_get_dentry(V9fsSynthNode *dir, struct dirent *entry,
@@ -428,7 +428,6 @@ static int v9fs_synth_statfs(FsContext *s, V9fsPath *fs_path,
     stbuf->f_bsize = 512;
     stbuf->f_blocks = 0;
     stbuf->f_files = v9fs_synth_node_count;
-    stbuf->f_namelen = NAME_MAX;
     return 0;
 }
 
