@@ -33,7 +33,7 @@ static ssize_t mp_user_getxattr(FsContext *ctx, const char *path,
         return -1;
     }
     buffer = rpath(ctx, path);
-    ret = lgetxattr(buffer, name, value, size);
+    ret = getxattr(buffer, name, value, size, 0, XATTR_NOFOLLOW);
     g_free(buffer);
     return ret;
 }
@@ -86,7 +86,7 @@ static int mp_user_setxattr(FsContext *ctx, const char *path, const char *name,
         return -1;
     }
     buffer = rpath(ctx, path);
-    ret = lsetxattr(buffer, name, value, size, flags);
+    ret = setxattr(buffer, name, value, size, 0, flags | XATTR_NOFOLLOW);
     g_free(buffer);
     return ret;
 }
@@ -106,7 +106,7 @@ static int mp_user_removexattr(FsContext *ctx,
         return -1;
     }
     buffer = rpath(ctx, path);
-    ret = lremovexattr(buffer, name);
+    ret = removexattr(buffer, name, XATTR_NOFOLLOW);
     g_free(buffer);
     return ret;
 }
