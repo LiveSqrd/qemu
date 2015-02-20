@@ -1629,7 +1629,7 @@ static int v9fs_do_readdir_with_stat(V9fsPDU *pdu,
         count += len;
         v9fs_stat_free(&v9stat);
         v9fs_path_free(&path);
-        saved_dir_pos = dent->d_off;
+        saved_dir_pos = dent->d_seekoff;
     }
 out:
     g_free(dent);
@@ -1811,7 +1811,7 @@ static int v9fs_do_readdir(V9fsPDU *pdu,
 
         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
         len = pdu_marshal(pdu, 11 + count, "Qqbs",
-                          &qid, dent->d_off,
+                          &qid, dent->d_seekoff,
                           dent->d_type, &name);
         if (len < 0) {
             v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
@@ -1821,7 +1821,7 @@ static int v9fs_do_readdir(V9fsPDU *pdu,
         }
         count += len;
         v9fs_string_free(&name);
-        saved_dir_pos = dent->d_off;
+        saved_dir_pos = dent->d_seekoff;
     }
     g_free(dent);
     if (err < 0) {
