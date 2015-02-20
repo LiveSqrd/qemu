@@ -18,7 +18,9 @@
 #include <utime.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
-#include <sys/vfs.h>
+#include <sys/param.h>
+#include <sys/mount.h>
+
 
 #define SM_LOCAL_MODE_BITS    0600
 #define SM_LOCAL_DIR_MODE_BITS    0700
