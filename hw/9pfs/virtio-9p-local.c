@@ -22,7 +22,6 @@
 #include <sys/un.h>
 #include "qemu/xattr.h"
 #include <libgen.h>
-#include <linux/fs.h>
 #ifdef CONFIG_LINUX_MAGIC_H
 #include <linux/magic.h>
 #endif
@@ -141,7 +140,7 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
             stbuf->st_gid = le32_to_cpu(tmp_gid);
         }
         if (getxattr(buffer, "user.virtfs.mode",
-                    &tmp_mode, sizeof(mode_t)) > 0) {
+                    &tmp_mode, sizeof(mode_t), 0, 0) > 0) {
             stbuf->st_mode = le32_to_cpu(tmp_mode);
         }
         if (getxattr(buffer, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t), 0, 0) > 0) {
@@ -633,16 +632,16 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
         mode_t tmp_mode;
         dev_t tmp_dev;
 
-        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0) {
+        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t), 0, 0) > 0) {
             stbuf->st_uid = le32_to_cpu(tmp_uid);
         }
-        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0) {
+        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t), 0, 0) > 0) {
             stbuf->st_gid = le32_to_cpu(tmp_gid);
         }
-        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t)) > 0) {
+        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t), 0, 0) > 0) {
             stbuf->st_mode = le32_to_cpu(tmp_mode);
         }
-        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0) {
+        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t), 0, 0) > 0) {
             stbuf->st_rdev = le64_to_cpu(tmp_dev);
         }
     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
