@@ -134,17 +134,17 @@ static int local_lstat(FsContext *fs_ctx, V9fsPath *fs_path, struct stat *stbuf)
         gid_t tmp_gid;
         mode_t tmp_mode;
         dev_t tmp_dev;
-        if (getxattr(buffer, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0) {
+        if (getxattr(buffer, "user.virtfs.uid", &tmp_uid, sizeof(uid_t), 0, 0) > 0) {
             stbuf->st_uid = le32_to_cpu(tmp_uid);
         }
-        if (getxattr(buffer, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0) {
+        if (getxattr(buffer, "user.virtfs.gid", &tmp_gid, sizeof(gid_t), 0, 0) > 0) {
             stbuf->st_gid = le32_to_cpu(tmp_gid);
         }
         if (getxattr(buffer, "user.virtfs.mode",
                     &tmp_mode, sizeof(mode_t)) > 0) {
             stbuf->st_mode = le32_to_cpu(tmp_mode);
         }
-        if (getxattr(buffer, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0) {
+        if (getxattr(buffer, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t), 0, 0) > 0) {
             stbuf->st_rdev = le64_to_cpu(tmp_dev);
         }
     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
